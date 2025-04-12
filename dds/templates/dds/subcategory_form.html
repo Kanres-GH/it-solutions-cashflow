@@ -1,0 +1,20 @@
+{% extends 'dds/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактировать подкатегорию{% else %}Создать подкатегорию{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Редактировать подкатегорию{% else %}Создать подкатегорию{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Название</label>
+        {{ form.name }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Категория</label>
+        {{ form.category }}
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'subcategory_list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

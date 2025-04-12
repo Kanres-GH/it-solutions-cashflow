@@ -94,3 +94,125 @@ class StatusCreateView(CreateView):
     form_class = StatusForm
     template_name = 'dds/status_form.html'
     success_url = reverse_lazy('status_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Статус успешно создан!")
+        return super().form_valid(form)
+
+class StatusUpdateView(UpdateView):
+    model = Status
+    form_class = StatusForm
+    template_name = 'dds/status_form.html'
+    success_url = reverse_lazy('status_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Статус успешно обновлён!")
+        return super().form_valid(form)
+
+class StatusDeleteView(DeleteView):
+    model = Status
+    template_name = 'dds/status_confirm_delete.html'
+    success_url = reverse_lazy('status_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Статус успешно удалён!")
+        return super().delete(request, *args, **kwargs)
+    
+class TypeListView(ListView):
+    model = Type
+    template_name = 'dds/type_list.html'
+
+class TypeCreateView(CreateView):
+    model = Type
+    form_class = TypeForm
+    template_name = 'dds/type_form.html'
+    success_url = reverse_lazy('type_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Тип успешно создан!")
+        return super().form_valid(form)
+
+class TypeUpdateView(UpdateView):
+    model = Type
+    form_class = TypeForm
+    template_name = 'dds/type_form.html'
+    success_url = reverse_lazy('type_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Тип успешно обновлён!")
+        return super().form_valid(form)
+
+class TypeDeleteView(DeleteView):
+    model = Type
+    template_name = 'dds/type_confirm_delete.html'
+    success_url = reverse_lazy('type_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Тип успешно удалён!")
+        return super().delete(request, *args, **kwargs)
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'dds/category_list.html'
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'dds/category_form.html'
+    success_url = reverse_lazy('category_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Категория успешно создана!")
+        return super().form_valid(form)
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'dds/category_form.html'
+    success_url = reverse_lazy('category_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Категория успешно обновлена!")
+        return super().form_valid(form)
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    template_name = 'dds/category_confirm_delete.html'
+    success_url = reverse_lazy('category_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Категория успешно удалена!")
+        return super().delete(request, *args, **kwargs)
+
+class SubCategoryListView(ListView):
+    model = SubCategory
+    template_name = 'dds/subcategory_list.html'
+
+class SubCategoryCreateView(CreateView):
+    model = SubCategory
+    form_class = SubCategoryForm
+    template_name = 'dds/subcategory_form.html'
+    success_url = reverse_lazy('subcategory_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Подкатегория успешно создана!")
+        return super().form_valid(form)
+
+class SubCategoryUpdateView(UpdateView):
+    model = SubCategory
+    form_class = SubCategoryForm
+    template_name = 'dds/subcategory_form.html'
+    success_url = reverse_lazy('subcategory_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Подкатегория успешно обновлена!")
+        return super().form_valid(form)
+
+class SubCategoryDeleteView(DeleteView):
+    model = SubCategory
+    template_name = 'dds/subcategory_confirm_delete.html'
+    success_url = reverse_lazy('subcategory_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Подкатегория успешно удалена!")
+        return super().delete(request, *args, **kwargs)
