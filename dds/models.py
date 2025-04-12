@@ -35,16 +35,16 @@ class SubCategory(models.Model):
         return self.name
 
 class CashFlow(models.Model):
-    created_at = models.DateField(default=date.today)  # Устанавливаем текущую дату по умолчанию
+    created_at = models.DateField(default=date.today)
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
     type = models.ForeignKey(Type, on_delete=models.PROTECT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.PROTECT, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     comment = models.TextField(blank=True)
 
     def clean(self):
-        if self.subcategory.category != self.category:
+        if self.subcategory and self.subcategory.category != self.category:
             raise ValidationError("Подкатегория не соответствует категории.")
         if self.category.type != self.type:
             raise ValidationError("Категория не соответствует типу.")
