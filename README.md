@@ -148,3 +148,4 @@ CashFlow.objects.create(
 Проект разработан в рамках тестового задания для компании IT-Solutions.
 - Темирлан Гайсин
 - Моя почта: ktnrgs1817@gmail.com
+- Моё резюме: https://hh.kz/resume/22a2bd4fff0c0c89c20039ed1f386f48734b4f
