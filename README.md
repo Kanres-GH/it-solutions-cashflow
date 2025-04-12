@@ -51,6 +51,100 @@ python manage.py runserver
 ```
 Приложение будет доступно по адресу `http://127.0.0.1:8000/`.
 
+## Добавление тестовых данных
+### Через Django Shell
+1. Запустите Django Shell
+```bash
+python manage.py shell
+```
+2. Выполните следующий код для добавления тестовых данных:
+```bash
+from dds.models import Status, Type, Category, SubCategory, CashFlow
+from datetime import date
+
+# Очищаем существующие данные (необязательно)
+Status.objects.all().delete()
+Type.objects.all().delete()
+Category.objects.all().delete()
+SubCategory.objects.all().delete()
+CashFlow.objects.all().delete()
+
+# СТАТУСЫ
+business = Status.objects.create(name="Бизнес")
+personal = Status.objects.create(name="Личное")
+tax = Status.objects.create(name="Налог")
+
+# ТИПЫ
+popolnenie = Type.objects.create(name="Пополнение")
+spisanie = Type.objects.create(name="Списание")
+
+# КАТЕГОРИИ
+infra = Category.objects.create(name="Инфраструктура", type=spisanie)
+marketing = Category.objects.create(name="Маркетинг", type=spisanie)
+dohody = Category.objects.create(name="Доходы", type=popolnenie)
+investitsii = Category.objects.create(name="Инвестиции", type=popolnenie)
+
+# ПОДКАТЕГОРИИ
+vps = SubCategory.objects.create(name="VPS", category=infra)
+proxy = SubCategory.objects.create(name="Proxy", category=infra)
+farpost = SubCategory.objects.create(name="Farpost", category=marketing)
+avito = SubCategory.objects.create(name="Avito", category=marketing)
+zarplata = SubCategory.objects.create(name="Зарплата", category=dohody)
+freelance = SubCategory.objects.create(name="Фриланс", category=dohody)
+aktsii = SubCategory.objects.create(name="Акции", category=investitsii)
+obligatsii = SubCategory.objects.create(name="Облигации", category=investitsii)
+
+# ЗАПИСИ ДДС
+CashFlow.objects.create(
+    created_at=date(2025, 1, 1),
+    status=business,
+    type=spisanie,
+    category=infra,
+    subcategory=vps,
+    amount=5000,
+    comment="Аренда VPS для проекта"
+)
+CashFlow.objects.create(
+    created_at=date(2025, 2, 15),
+    status=personal,
+    type=spisanie,
+    category=marketing,
+    subcategory=avito,
+    amount=2000,
+    comment="Реклама на Avito"
+)
+CashFlow.objects.create(
+    created_at=date(2025, 3, 10),
+    status=tax,
+    type=spisanie,
+    category=infra,
+    subcategory=proxy,
+    amount=1000,
+    comment="Покупка прокси для налогового проекта"
+)
+CashFlow.objects.create(
+    created_at=date(2025, 4, 1),
+    status=business,
+    type=popolnenie,
+    category=dohody,
+    subcategory=zarplata,
+    amount=50000,
+    comment="Зарплата за март"
+)
+CashFlow.objects.create(
+    created_at=date(2025, 4, 5),
+    status=personal,
+    type=popolnenie,
+    category=investitsii,
+    subcategory=aktsii,
+    amount=10000,
+    comment="Инвестиции в акции"
+)
+```
+### Через миграции
+1. Нужно убедиться, что в `dds/migrations/` есть миграция с тестовыми данными (например `0002_add_test_data.py`).
+2. Сделать `python manage.py migrate`
+----
 Проект разработан в рамках тестового задания для компании IT-Solutions.
 - Темирлан Гайсин
 - Моя почта: ktnrgs1817@gmail.com
