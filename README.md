@@ -23,31 +23,31 @@
 
 ## Установка
 
-1. **Клонируйте репозиторий**:
+- 1. **Клонируйте репозиторий**:
 ```bash
 git clone https://github.com/Kanres-GH/it-solutions-cashflow.git
 cd cashflow
 ```
-2. Создайте и активируйте виртуальное окружение:
+- 2. Создайте и активируйте виртуальное окружение:
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 или `source venv/bin/activate` для Linux
-3. Установите зависимости:
+- 3. Установите зависимости:
 ```bash
 pip install django==5.2
 ```
-4. Примените миграции:
+- 4. Примените миграции:
 ```bash
 python manage.py migrate
 ```
-5. Создайте суперпользователя (для доступа к админ-панели):
+- 5. Создайте суперпользователя (для доступа к админ-панели):
 ```bash
 python manage.py createsuperuser
 ```
 Следуйте инструкциям, чтобы задать имя пользователя, email и пароль.
-6. Запустите сервер:
+- 6. Запустите сервер:
 ```bash
 python manage.py runserver
 ```
