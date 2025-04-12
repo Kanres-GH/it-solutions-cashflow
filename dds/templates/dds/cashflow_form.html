@@ -1,0 +1,100 @@
+{% extends 'dds/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактировать запись{% else %}Создать запись{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Редактировать запись{% else %}Создать запись{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Дата</label>
+        {{ form.created_at }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Статус</label>
+        {{ form.status }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Тип</label>
+        {{ form.type }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Категория</label>
+        {{ form.category }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Подкатегория</label>
+        {{ form.subcategory }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Сумма (руб.)</label>
+        {{ form.amount }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Комментарий</label>
+        {{ form.comment }}
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'cashflow_list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeSelect = document.querySelector('#id_type');
+        const categorySelect = document.querySelector('#id_category');
+        const subcategorySelect = document.querySelector('#id_subcategory');
+    
+        function updateCategories() {
+            const typeId = typeSelect.value;
+            fetch(`/api/categories/?type=${typeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    categorySelect.innerHTML = '<option value="">---------</option>';
+                    data.forEach(category => {
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.text = category.name;
+                        categorySelect.appendChild(option);
+                    });
+                    if (categorySelect.value) {
+                        updateSubcategories();
+                    } else {
+                        subcategorySelect.innerHTML = '<option value="">---------</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при загрузке категорий:', error);
+                });
+        }
+    
+        function updateSubcategories() {
+            const categoryId = categorySelect.value;
+            if (!categoryId) {
+                subcategorySelect.innerHTML = '<option value="">---------</option>';
+                return;
+            }
+            fetch(`/api/subcategories/?category=${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    subcategorySelect.innerHTML = '<option value="">---------</option>';
+                    data.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory.id;
+                        option.text = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка при загрузке подкатегорий:', error);
+                });
+        }
+    
+        typeSelect.addEventListener('change', updateCategories);
+        categorySelect.addEventListener('change', updateSubcategories);
+    
+        if (typeSelect.value) {
+            updateCategories();
+        }
+    });
+</script>
+{% endblock %}
